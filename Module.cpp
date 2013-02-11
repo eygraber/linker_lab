@@ -126,7 +126,7 @@ void Module::parseCode(ifstream* file) {
         }
 
         //if the address type is Absolute or Relative and the address
-        //is >= 600, it is out of bounds of the machine
+        //is >= MACHINE_SIZE, it is out of bounds of the machine
         if((type == 'A' || type == 'R') && address >= MACHINE_SIZE) {
             ostringstream error;
             error << "ERROR: absolute address " << address << " exceeds the size of the machine!";
