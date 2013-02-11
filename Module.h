@@ -7,9 +7,13 @@
 #include<vector>
 using namespace std;
 
+//a struct used to hold information from
+//the code section of the module
 struct Code {
     Code(char type, string word) : type(type), word(word) {}
+    //type of address (R, E, A, I)
     char type;
+    //the opcode (not used) followed by the 3 digit address
     string word;
 };
 
@@ -27,7 +31,9 @@ class Module {
             return codeVector;
         }
     private:
+        //this size of the module
         int size;
+        //the absolute starting address of the module
         int startingAddress;
 
         int moduleNumber;
@@ -37,6 +43,8 @@ class Module {
         vector<Symbol*>* defListVector;
         vector<string>* useListVector;
         vector<Code*>* codeVector;
+        //holds addresses of type E that need to
+        //be resolved in the second pass
         vector<Code*>* needsResolving;
 
         void parseDefList(ifstream* file);
@@ -47,6 +55,9 @@ class Module {
 
         void checkDefListForErrors();
 
+        //parseString traverses the file stream
+        //and parses out a string until whitespace,
+        //a newline, or eof is encountered
         string parseString(ifstream* s);
 };
 

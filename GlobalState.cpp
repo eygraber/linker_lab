@@ -4,6 +4,8 @@ void GlobalState::printSymbolTable() {
     SymbolTable::iterator it;
 
     cout << "Symbol Table" << endl;
+    //iterates through all of the Symbols in the SymbolTable
+    //and print them
     for(it = symbols->begin(); it != symbols->end(); it++) {
         cout << it->first << "=" << it->second->address << endl;
     }
@@ -14,6 +16,8 @@ void GlobalState::printSymbolTable() {
 void GlobalState::printNotUsedWarnings() {
     SymbolTable::iterator it;
 
+    //iterates through all of the Symbols in the SymbolTable
+    //and prints the ones that were never used in code
     for(it = symbols->begin(); it != symbols->end(); it++) {
         if(!it->second->used) {
             cout << "WARNING: symbol " << it->second->name << " was defined in module ";
