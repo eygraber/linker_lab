@@ -13,6 +13,8 @@ class LinkerException : public runtime_error {
         LinkerException(string msg) : runtime_error(msg) {}
 };
 
+const int MACHINE_SIZE = 600;
+
 //a struct that holds values for a symbol
 //used for values in the SymbolTable and definition lists
 struct Symbol {
@@ -44,7 +46,7 @@ class GlobalState {
         void printNotUsedWarnings();
 
         void printAddressList(vector<Module*>* modules);
-        
+
         ~GlobalState() {
             delete symbols;
         }
