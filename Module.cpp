@@ -27,7 +27,7 @@ Module::Module(ifstream* file, int moduleNumber, GlobalState* gs) {
     gs->currentAddress += size;
 
     //if the current address will exceed the size of the machine
-    if(gs->currentAddress > 599) {
+    if(gs->currentAddress > MACHINE_SIZE - 1) {
         ostringstream error;
         error << "ERROR: total size of all modules exceeds the size of the machine!";
         throw LinkerException(error.str());
@@ -127,7 +127,7 @@ void Module::parseCode(ifstream* file) {
 
         //if the address type is Absolute or Relative and the address
         //is >= 600, it is out of bounds of the machine
-        if(type == 'A' || type == 'R' && address > 599) {
+        if(type == 'A' || type == 'R' && address > MACHINE_SIZE - 1) {
             ostringstream error;
             error << "ERROR: absolute address " << address << " exceeds the size of the machine!";
             throw LinkerException(error.str());
