@@ -26,6 +26,13 @@ Module::Module(ifstream* file, int moduleNumber, GlobalState* gs) {
     //know its starting address
     gs->currentAddress += size;
 
+    //if the current address will exceed the size of the machine
+    if(gs->currentAddress > 599) {
+        ostringstream error;
+        error << "ERROR: total size of all modules exceeds the size of the machine!";
+        throw LinkerException(error.str());
+    }
+
     //once we know the size of the module
     //we can make sure that none of the symbols
     //in the def list were addressed out of bounds
@@ -106,14 +113,6 @@ void Module::parseCode(ifstream* file) {
         //the address is the last 3 digits of the word
         int address = atoi(word.substr(1).c_str());
 
-        //if the address type is Absolute and the address
-        //is >= 600, it is out of bounds of the machine
-        if(type == 'A' && address > 599) {
-            ostringstream error;
-            error << "ERROR: absolute address " << address << " exceeds the size of the machine!";
-            throw LinkerException(error.str());
-        }
-
         if(type == 'R') {
             //if the address is out of bounds
             //of the module
@@ -124,6 +123,14 @@ void Module::parseCode(ifstream* file) {
             }
             //we can relocate the relative addresses here so why not
             address += startingAddress;
+        }
+
+        //if the address type is Absolute or Relative and the address
+        //is >= 600, it is out of bounds of the machine
+        if(type == 'A' || type == 'R' && address > 599) {
+            ostringstream error;
+            error << "ERROR: absolute address " << address << " exceeds the size of the machine!";
+            throw LinkerException(error.str());
         }
 
         ostringstream ss;
