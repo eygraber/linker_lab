@@ -44,6 +44,10 @@ class GlobalState {
         void printNotUsedWarnings();
 
         void printAddressList(vector<Module*>* modules);
+        
+        ~GlobalState() {
+            delete symbols;
+        }
 };
 
 #endif
